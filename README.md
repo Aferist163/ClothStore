@@ -1,0 +1,2 @@
+# ClothStore
+XAMPP_PHP
