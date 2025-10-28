@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #000000 0%, #49464b 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    animation: fadeInDown 0.8s ease;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease backwards;
+}
+
+.product-card:hover {
+    transform: translateY(-15px) scale(1.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.product-card h3 {
+    color: #5c5c5c;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #414141;
+}
+
+.product-card img {
+    height: 200px;
+    transition: transform 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: block;       
+    margin: 0 auto ;  
+}
+
+
+.product-card:hover img {
+    transform: scale(1.1) rotate(2deg);
+}
+
+.product-card p {
+    color: #555;
+    line-height: 1.6;
+    margin: 12px 0;
+    font-size: 1rem;
+}
+
+.product-card p strong {
+    color: #000000;
+    font-size: 1.3rem;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.product-card p:last-child {
+    font-size: 1.4rem;
+    color: #616161;
+    font-weight: bold;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px dashed #e0e0e0;
+}
