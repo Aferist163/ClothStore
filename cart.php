@@ -27,6 +27,7 @@
             <a href="index.php">Back to shop</a>
         </div>
     </div>
+    <script src="js/cart.js" defer></script>
 
     </body>
 </html>
