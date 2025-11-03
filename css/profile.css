@@ -1,0 +1,99 @@
+/* css/profile.css */
+
+body.profile-page {
+    padding-top: 40px;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: none;
+    font-size: 2.5rem;
+}
+
+.profile-info p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-info p strong {
+    color: #000;
+    margin-right: 10px;
+}
+
+/* Заглушки, які будуть заповнені JS */
+#profile-username,
+#profile-email,
+#profile-role {
+    font-weight: normal;
+    color: #555;
+}
+
+.profile-actions {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile-button {
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+/* Кнопка Адмінки (за замовчуванням прихована) */
+#admin-button {
+    background-color: #ffc107; /* Жовтий */
+    color: #333;
+    display: none; /* JS покаже її, якщо role == 'admin' */
+}
+
+#admin-button:hover {
+    background-color: #e0a800;
+}
+
+/* Кнопка Виходу */
+#logout-button {
+    background-color: #dc3545; /* Червоний */
+    color: white;
+}
+
+#logout-button:hover {
+    background-color: #c82333;
+}
+
+.profile-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-links a {
+    color: #5c5c5c;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.profile-links a:hover {
+    text-decoration: underline;
+}
