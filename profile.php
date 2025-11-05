@@ -20,7 +20,7 @@
         </div>
 
         <div class="profile-actions">
-            <a href="#" id="admin-button" class="profile-button">Admin Panel</a>
+            <a href="admin.php" id="admin-button" class="profile-button">Admin Panel</a>
 
             <button id="logout-button" class="profile-button">Logout</button>
         </div>

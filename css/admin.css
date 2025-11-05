@@ -1,0 +1,158 @@
+/* css/admin.css */
+
+body.admin-page {
+    padding: 40px 20px;
+}
+
+.admin-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* Форма для додавання/редагування */
+.admin-form-container {
+    flex: 1;
+    min-width: 350px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: sticky; /* "Прилипає" при прокрутці */
+    top: 40px;
+}
+
+.admin-form-container h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-button:hover {
+    background: #0056b3;
+}
+
+/* Кнопка "Скасувати редагування" */
+#cancel-edit-btn {
+    background: #6c757d;
+    margin-top: 10px;
+    display: none; /* Буде показана через JS */
+}
+#cancel-edit-btn:hover {
+    background: #5a6268;
+}
+
+/* Список товарів */
+.admin-products-list {
+    flex: 2; /* Займає в 2 рази більше місця */
+}
+
+.admin-products-list h2 {
+    text-align: left;
+}
+
+#products-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+#products-table th,
+#products-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+#products-table th {
+    background: #f8f9fa;
+    color: #333;
+    font-size: 1rem;
+}
+
+#products-table td {
+    color: #555;
+    vertical-align: middle;
+}
+
+#products-table tr:last-child td {
+    border-bottom: none;
+}
+
+#products-table img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.action-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    margin-right: 5px;
+}
+
+.edit-btn {
+    background: #ffc107;
+    color: #333;
+}
+.edit-btn:hover {
+    background: #e0a800;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+}
+.delete-btn:hover {
+    background: #c82333;
+}
