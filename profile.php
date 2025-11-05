@@ -6,9 +6,11 @@
     <title>Your Profile - ClothStore</title>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/profile.css">
+    <link rel="stylesheet" href="./css/navbar.css">
     <script src="js/auth.js" defer></script>
 </head>
 <body class="profile-page">
+    <?php include 'header.php'; ?>
 
     <div class="profile-container">
         <h2>Your Profile</h2>
@@ -31,4 +33,5 @@
     </div>
 
     </body>
+    <?php include 'footer.php'; ?>
 </html>

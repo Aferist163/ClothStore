@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const logoutButton = document.getElementById('logout-button');
         logoutButton.addEventListener('click', handleLogout);
     }
+    if (logoutNavButton) {
+        logoutNavButton.addEventListener('click', handleLogout);
+    }
 });
 
 /**

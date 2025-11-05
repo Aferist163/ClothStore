@@ -6,9 +6,11 @@
     <title>Register - ClothStore</title>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/navbar.css">
     <script src="js/auth.js" defer></script>
 </head>
 <body class="auth-page"> <form id="register-form" class="auth-form">
+    <?php include 'header.php'; ?>
         <h2>Create Account</h2>
         
         <div id="error-message"></div>
@@ -37,4 +39,5 @@
     </form>
 
 </body>
+<?php include 'footer.php'; ?>
 </html>

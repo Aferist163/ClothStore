@@ -1,0 +1,61 @@
+/* css/navbar.css */
+
+.main-nav {
+    background: #fff;
+    padding: 0 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 80px;
+}
+
+.nav-logo a {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a,
+.nav-links .nav-button {
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: #f4f4f4;
+    color: #000;
+}
+
+/* Спеціальний стиль для кнопки "Logout" або "Login" */
+.nav-button {
+    background: #5c5c5c;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.nav-button:hover {
+    background: #333 !important;
+    color: white !important;
+}
