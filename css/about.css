@@ -1,0 +1,47 @@
+/* css/about.css */
+
+body.about-page {
+    padding-top: 40px;
+}
+
+.about-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.about-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: none;
+    font-size: 2.5rem;
+}
+
+.about-container p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.creators-list {
+    list-style: none;
+    padding: 0;
+}
+
+.creators-list li {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.creators-list li:last-child {
+    border-bottom: none;
+}

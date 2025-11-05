@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
     const loginForm = document.getElementById('login-form');
     const profileContainer = document.querySelector('.profile-container');
+    
+    // --- ПЕРЕВІРКА КНОПКИ В ХЕДЕРІ ---
+    // Шукаємо кнопку Logout у хедері, яка є на ВСІХ сторінках
+    const logoutNavButton = document.getElementById('logout-nav-btn');
 
     // 1. Якщо ми на сторінці РЕЄСТРАЦІЇ
     if (registerForm) {
@@ -20,12 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Якщо ми на сторінці ПРОФІЛЮ
     if (profileContainer) {
-        loadProfile(); // Завантажуємо дані профілю
-
-        // Знаходимо кнопку logout і вішаємо обробник
+        loadProfile(); 
+        
+        // Обробник для кнопки Logout на самій сторінці профілю
         const logoutButton = document.getElementById('logout-button');
-        logoutButton.addEventListener('click', handleLogout);
+        logoutButton.addEventListener('click', handleLogout); 
     }
+
+    // --- ОБРОБНИК ДЛЯ КНОПКИ В ХЕДЕРІ ---
+    // 4. Якщо на сторінці є кнопка Logout у навігації
     if (logoutNavButton) {
         logoutNavButton.addEventListener('click', handleLogout);
     }

@@ -16,7 +16,7 @@ body.auth-page {
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 450px;
+    
 }
 
 /* Ми робимо цей h2 специфічним, щоб він не конфліктував з h2 з index.css */

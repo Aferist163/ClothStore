@@ -12,6 +12,7 @@ $is_admin = $is_logged_in && isset($_SESSION['role']) && $_SESSION['role'] === '
         <div class="nav-links">
             <a href="index.php">Shop</a>
             <a href="cart.php">Cart</a>
+            <a href="about.php">About</a>
             
             <?php if ($is_admin): ?>
                 <a href="admin.php">Admin Panel</a>

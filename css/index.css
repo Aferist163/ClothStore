@@ -89,3 +89,49 @@ h2 {
     padding-top: 15px;
     border-top: 2px dashed #e0e0e0;
 }
+/* --- СТИЛІ ДЛЯ КНОПОК ДОДАВАННЯ В КОШИК (ДОДАНО) --- */
+
+.product-card .product-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px dashed #e0e0e0;
+}
+
+.product-card .quantity-selector {
+    display: flex;
+    align-items: center;
+}
+
+.product-card .quantity-selector label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}
+
+.product-card .quantity-input {
+    width: 60px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.product-card .add-to-cart-btn {
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.product-card .add-to-cart-btn:hover {
+    background: #0056b3;
+}
