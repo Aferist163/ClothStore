@@ -6,6 +6,7 @@
     <title>Your Profile - ClothStore</title>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/profile.css">
+    <script src="js/auth.js" defer></script>
 </head>
 <body class="profile-page">
 

@@ -6,6 +6,7 @@
     <title>Login - ClothStore</title>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/auth.css">
+    <script src="js/auth.js" defer></script>
 </head>
 <body class="auth-page"> <form id="login-form" class="auth-form">
         <h2>Login</h2>

@@ -6,6 +6,7 @@
     <title>Register - ClothStore</title>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/auth.css">
+    <script src="js/auth.js" defer></script>
 </head>
 <body class="auth-page"> <form id="register-form" class="auth-form">
         <h2>Create Account</h2>
