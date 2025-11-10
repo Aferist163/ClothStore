@@ -23,6 +23,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
         'user' => [
             'id' => $_SESSION['user_id'],
             'username' => $_SESSION['username'],
+            'email' => $_SESSION['email'],
             'role' => $_SESSION['role']
         ]
     ]);

@@ -35,6 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Якщо на сторінці є кнопка Logout у навігації
     if (logoutNavButton) {
         logoutNavButton.addEventListener('click', handleLogout);
+
+        const changePasswordForm = document.getElementById('change-password-form');
+        if (changePasswordForm) {
+            changePasswordForm.addEventListener('submit', handleChangePassword);
+        }
     }
 });
 
@@ -173,5 +178,56 @@ async function handleLogout() {
 
     } catch (error) {
         console.error('Logout failed:', error);
+    }
+}
+async function handleChangePassword(event) {
+    event.preventDefault(); // Зупиняємо відправку
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const msgEl = document.getElementById('password-message');
+    msgEl.style.display = 'none'; // Ховаємо старе повідомлення
+
+    // Клієнтська валідація
+    if (data.new_password.length < 8) {
+        msgEl.textContent = 'New password must be at least 8 characters long';
+        msgEl.className = 'error';
+        msgEl.style.display = 'block';
+        return;
+    }
+    if (data.new_password !== data.confirm_password) {
+        msgEl.textContent = 'New passwords do not match';
+        msgEl.className = 'error';
+        msgEl.style.display = 'block';
+        return;
+    }
+
+    try {
+        // Робимо запит до нашого нового api/change_password.php
+        const response = await fetch('http://localhost/ClothStore/api/change_password.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            // Якщо сервер повернув помилку (400, 401, 500)
+            throw new Error(result.error || 'Failed to update password');
+        }
+
+        // Якщо все добре (200 OK)
+        msgEl.textContent = 'Password updated successfully!';
+        msgEl.className = 'success';
+        msgEl.style.display = 'block';
+        form.reset(); // Очищуємо форму
+
+    } catch (error) {
+        msgEl.textContent = error.message;
+        msgEl.className = 'error';
+        msgEl.style.display = 'block';
     }
 }

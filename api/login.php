@@ -68,6 +68,7 @@ if (password_verify($password_from_user, $user['password_hash'])) {
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['role'] = $user['role'];
+    $_SESSION['email'] = $user['email'];
 
     // 8. Повертаємо успішну JSON-відповідь
     http_response_code(200); // OK

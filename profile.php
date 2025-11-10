@@ -20,6 +20,28 @@
             <p><strong>Email:</strong> <span id="profile-email">Loading...</span></p>
             <p><strong>Role:</strong> <span id="profile-role">Loading...</span></p>
         </div>
+        <form id="change-password-form">
+            <h3>Change Password</h3>
+
+            <div id="password-message"></div>
+
+            <div class="form-group">
+                <label for="old_password">Old Password</label>
+                <input type="password" id="old_password" name="old_password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="new_password">New Password (min. 8 characters)</label>
+                <input type="password" id="new_password" name="new_password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm New Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+
+            <button type="submit" class="form-button">Update Password</button>
+        </form>
 
         <div class="profile-actions">
             <a href="admin.php" id="admin-button" class="profile-button">Admin Panel</a>
