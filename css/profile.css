@@ -1,13 +1,9 @@
-/* css/profile.css */
-
-body.profile-page {
-    padding-top: 40px;
-}
-
 .profile-container {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    margin-top: 50px;
+    
     background: #fff;
     border-radius: 20px;
     padding: 40px;
@@ -164,4 +160,9 @@ body.profile-page {
 
 .form-button:hover {
     background: #0056b3;
+}
+
+.info{
+    display: flex;
+    flex-direction: row;
 }

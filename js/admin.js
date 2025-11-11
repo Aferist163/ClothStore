@@ -203,7 +203,16 @@ function setupTempCategories() {
 
     // Дані з вашого .sql файлу
     const categories = [
-        { id: 1, name: 't-shirt' }
+        { id: 1, name: 't-shirt' },
+        { id: 2, name: 'eyewear' },
+        { id: 3, name: 'jeans' },
+        { id: 4, name: 'hoodie' },
+        { id: 5, name: 'zip hoodie' },
+        { id: 6, name: 'sweatshirt' },
+        { id: 7, name: 'sweatpants' },
+        { id: 8, name: 'puffer jacket' },
+        { id: 9, name: 'hat' },
+        { id: 10, name: 'shoes' }
         // Додайте більше, якщо вони у вас є
     ];
 

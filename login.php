@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/navbar.css"> <link rel="stylesheet" href="./css/auth.css">
 </head>
-<body class="auth-page">
+<body>
     <?php include 'header.php'; ?>
 
     <form id="login-form" class="auth-form">

@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="./css/navbar.css">
     <script src="js/auth.js" defer></script>
 </head>
-<body class="profile-page">
+<body>
     <?php include 'header.php'; ?>
 
     <div class="profile-container">
-        <h2>Your Profile</h2>
-
-        <div class="profile-info">
+       <div class="info">
+         <div class="profile-info">
+             <h2>Your Profile</h2>
             <p><strong>Username:</strong> <span id="profile-username">Loading...</span></p>
             <p><strong>Email:</strong> <span id="profile-email">Loading...</span></p>
             <p><strong>Role:</strong> <span id="profile-role">Loading...</span></p>
@@ -42,6 +42,8 @@
 
             <button type="submit" class="form-button">Update Password</button>
         </form>
+       </div>
+       
 
         <div class="profile-actions">
             <a href="admin.php" id="admin-button" class="profile-button">Admin Panel</a>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="./css/navbar.css">
 </head>
-<body class="admin-page">
+<body>
     <?php include 'header.php'; ?>
 
     <div class="admin-container">

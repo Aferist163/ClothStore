@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +10,16 @@
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/about.css">
 </head>
-<body class="about-page">
 
-    <?php include 'header.php';  ?>
+<body>
+
+    <?php include 'header.php'; ?>
 
     <div class="about-container">
         <h2>About Us</h2>
 
         <p>
-            Welcome to ClothStore! 
+            Welcome to ClothStore!
         </p>
         <p>
             It was built by:

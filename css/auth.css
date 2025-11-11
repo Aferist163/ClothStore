@@ -1,21 +1,11 @@
-/* css/auth.css */
-/* Стилі для сторінок входу та реєстрації */
 
-body.auth-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 20px;
-    /* Ми успадковуємо фон (linear-gradient) з index.css */
-}
 
 .auth-form {
     background: #fff;
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    width: 100%;
+    width: 300px;
     
 }
 
