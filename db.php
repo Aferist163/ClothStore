@@ -1,7 +1,7 @@
 <?php
 // db.php
 
-// Зчитуємо змінні середовища, які ми встановимо на Render
+// Зчитуємо змінні середовища (з Render)
 $host = getenv('DB_HOST');
 $user = getenv('DB_USER');
 $pass = getenv('DB_PASS');
@@ -9,25 +9,32 @@ $dbname = getenv('DB_NAME');
 $port = getenv('DB_PORT');
 
 if (!$host) {
-    // Якщо ми локально (XAMPP) - змінні порожні
+    // --- ЛОГІКА ДЛЯ ЛОКАЛЬНОГО XAMPP ---
+    // Якщо змінні порожні, ми на XAMPP
     $host = "localhost";
     $user = "root";
-    $pass = ""; // Ваш пароль від XAMPP (якщо є)
+    $pass = ""; // Ваш пароль від XAMPP
     $dbname = "clothstore";
-    $port = 3306; // Стандартний порт XAMPP
-}
+    $port = 3306;
 
-// Створюємо підключення
-$conn = new mysqli($host, $user, $pass, $dbname, (int)$port); // (int) для порту
+    // Створюємо звичайне (незахищене) з'єднання
+    $conn = new mysqli($host, $user, $pass, $dbname, (int)$port);
 
-// Якщо це TiDB (вимагає SSL), вмикаємо SSL
-// Ми знаємо, що це TiDB, якщо $host не порожній
-if (getenv('DB_HOST')) {
+} else {
+    // --- ЛОГІКА ДЛЯ "ЖИВОГО" RENDER/TIDB (З SSL) ---
+
+    // 1. Ініціалізуємо mysqli (але НЕ підключаємось)
+    $conn = mysqli_init();
+
+    // 2. Встановлюємо налаштування SSL
+    // Ми використовуємо стандартний шлях до сертифікатів у Docker-образі Render
     $conn->ssl_set(NULL, NULL, "/etc/ssl/certs/ca-certificates.crt", NULL, NULL);
+
+    // 3. Тепер підключаємось ЗАХИЩЕНО через real_connect
     $conn->real_connect($host, $user, $pass, $dbname, (int)$port, NULL, MYSQLI_CLIENT_SSL);
 }
 
-// Перевірка підключення
+// Перевірка підключення (працює для обох методів)
 if ($conn->connect_error) {
     die("Błąd połączenia: " . $conn->connect_error);
 }

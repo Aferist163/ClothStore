@@ -60,7 +60,7 @@ switch ($method) {
 
         $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param(
-            'ssdss',
+            'ssdsi',
             $data['name'],
             $data['description'],
             $data['price'],
@@ -93,7 +93,7 @@ switch ($method) {
 
         $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
         $stmt->bind_param(
-            'ssdssi', // 'i' в кінці для id
+            'ssdsii', // 'i' в кінці для id
             $data['name'],
             $data['description'],
             $data['price'],

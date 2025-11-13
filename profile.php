@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -13,7 +14,7 @@
     <?php include 'header.php'; ?>
 
     <div class="profile-container">
-       <div class="info">
+       
          <div class="profile-info">
              <h2>Your Profile</h2>
             <p><strong>Username:</strong> <span id="profile-username">Loading...</span></p>
@@ -42,7 +43,7 @@
 
             <button type="submit" class="form-button">Update Password</button>
         </form>
-       </div>
+       
        
 
         <div class="profile-actions">

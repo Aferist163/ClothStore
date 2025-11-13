@@ -1,6 +1,6 @@
 <?php
 // header.php
-session_start();
+
 $is_logged_in = isset($_SESSION['user_id']);
 $is_admin = $is_logged_in && isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
