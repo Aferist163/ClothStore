@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/auth.css">
     <link rel="stylesheet" href="./css/navbar.css">
-    <script src="js/auth.js" defer></script>
 </head>
-<body class="auth-page"> <form id="register-form" class="auth-form">
-    <?php include 'header.php'; ?>
+<body class="auth-page"> 
+
+    <?php include 'header.php'; // 1. Хедер має бути тут, одразу після <body> ?>
+
+    <form id="register-form" class="auth-form">
         <h2>Create Account</h2>
         
         <div id="error-message"></div>
@@ -39,6 +41,6 @@
         </div>
     </form>
 
+    <?php include 'footer.php'; ?>
 </body>
-<?php include 'footer.php'; ?>
 </html>
