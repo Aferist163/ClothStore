@@ -60,7 +60,7 @@ switch ($method) {
 
         $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param(
-            'ssdss',
+            'ssdsi',
             $data['name'],
             $data['description'],
             $data['price'],
