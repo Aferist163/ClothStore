@@ -5,6 +5,7 @@ session_start();
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+// Дозволяємо всі методи, потрібні для CRUD
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); 
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -14,14 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // --- 1. АДМІН-ОХОРОНЕЦЬ ---
+// Перевіряємо, чи користувач взагалі залогінений
 if (!isset($_SESSION['user_id'])) {
-    http_response_code(401);
+    http_response_code(401); // Unauthorized
     echo json_encode(['error' => 'Authentication required']);
     exit;
 }
 
+// Перевіряємо, чи користувач є АДМІНОМ
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    http_response_code(403);
+    http_response_code(403); // Forbidden
     echo json_encode(['error' => 'Access denied. Admin rights required.']);
     exit;
 }
@@ -29,26 +32,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 // 2. Підключаємо БД
 require_once '../db.php'; // $conn
 
-// 3. Підключаємо AWS SDK для Cloudflare R2
-require_once '../vendor/autoload.php';
-use Aws\S3\S3Client;
-
-$s3 = new S3Client([
-    'version' => 'latest',
-    'region'  => 'auto',
-    'endpoint' => 'ID',
-    'credentials' => [
-        'key'    => 'KEY',
-        'secret' => 'SECRET',
-    ],
-]);
-
-$bucketName = 'BUCKETNAME';
-
+// 3. "Міні-роутер": визначаємо, яку дію виконувати
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
+        // ДІЯ: ОТРИМАТИ ВСІ ТОВАРИ (READ)
         $sql = "SELECT p.*, c.name AS category_name 
                 FROM products p 
                 LEFT JOIN categories c ON p.category_id = c.id";
@@ -58,71 +47,79 @@ switch ($method) {
         break;
 
     case 'POST':
-        // Створення нового або оновлення товару (якщо ?id= передано)
-        $productId = $_GET['id'] ?? null;
+        // ДІЯ: СТВОРИТИ НОВИЙ ТОВАР (CREATE)
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        $name = $_POST['name'] ?? null;
-        $description = $_POST['description'] ?? '';
-        $price = $_POST['price'] ?? null;
-        $category_id = $_POST['category_id'] ?? null;
-
-        if (empty($name) || empty($price) || empty($category_id)) {
+        // Проста валідація
+        if (empty($data['name']) || empty($data['price']) || empty($data['category_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Name, price, and category_id are required']);
+            $conn->close();
             exit;
         }
 
-        // --- Завантаження файлу на Cloudflare R2 ---
-        $image_url = null;
-        if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === 0) {
-            $filename = uniqid() . '-' . basename($_FILES['product_image']['name']);
-            try {
-                $upload = $s3->putObject([
-                    'Bucket' => $bucketName,
-                    'Key'    => $filename,
-                    'SourceFile' => $_FILES['product_image']['tmp_name'],
-                    'ACL'    => 'public-read',
-                ]);
-                $image_url = $upload['ObjectURL'];
-            } catch (Exception $e) {
-                http_response_code(500);
-                echo json_encode(['error' => 'Failed to upload image: ' . $e->getMessage()]);
-                exit;
-            }
-        }
+        $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            'ssdsi',
+            $data['name'],
+            $data['description'],
+            $data['price'],
+            $data['image_url'],
+            $data['category_id']
+        );
 
-        if ($productId) {
-            // --- UPDATE ---
-            $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, category_id = ?, image_url = COALESCE(?, image_url) WHERE id = ?");
-            $stmt->bind_param('ssdisi', $name, $description, $price, $category_id, $image_url, $productId);
-            if ($stmt->execute()) {
-                http_response_code(200);
-                echo json_encode(['success' => true, 'message' => 'Product updated']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['error' => 'Failed to update product']);
-            }
-            $stmt->close();
+        if ($stmt->execute()) {
+            http_response_code(201); // Created
+            echo json_encode(['success' => true, 'product_id' => $conn->insert_id]);
         } else {
-            // --- CREATE ---
-            $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param('ssdsi', $name, $description, $price, $image_url, $category_id);
-            if ($stmt->execute()) {
-                http_response_code(201);
-                echo json_encode(['success' => true, 'product_id' => $conn->insert_id]);
-            } else {
-                http_response_code(500);
-                echo json_encode(['error' => 'Failed to create product']);
-            }
-            $stmt->close();
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to create product']);
         }
+        $stmt->close();
         break;
 
-    case 'DELETE':
+    case 'PUT':
+        // ДІЯ: ОНОВИТИ ТОВАР (UPDATE)
+        // Ми очікуємо ID товару в URL, наприклад: .../admin.php?id=3
         $id = $_GET['id'] ?? null;
         if (!$id) {
             http_response_code(400);
-            echo json_encode(['error' => 'Product ID is required']);
+            echo json_encode(['error' => 'Product ID is required in URL parameter (e.g., ?id=1)']);
+            $conn->close();
+            exit;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
+        $stmt->bind_param(
+            'ssdsii', // 'i' в кінці для id
+            $data['name'],
+            $data['description'],
+            $data['price'],
+            $data['image_url'],
+            $data['category_id'],
+            $id
+        );
+
+        if ($stmt->execute()) {
+            http_response_code(200); // OK
+            echo json_encode(['success' => true, 'message' => 'Product updated']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to update product']);
+        }
+        $stmt->close();
+        break;
+
+    case 'DELETE':
+        // ДІЯ: ВИДАЛИТИ ТОВАР (DELETE)
+        // Ми очікуємо ID товару в URL, наприклад: .../admin.php?id=3
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Product ID is required in URL parameter (e.g., ?id=1)']);
+            $conn->close();
             exit;
         }
 
@@ -131,11 +128,11 @@ switch ($method) {
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
-                http_response_code(200);
+                http_response_code(200); // OK
                 echo json_encode(['success' => true, 'message' => 'Product deleted']);
             } else {
-                http_response_code(404);
-                echo json_encode(['error' => 'Product not found']);
+                http_response_code(404); // Not Found
+                echo json_encode(['error' => 'Product not found or already deleted']);
             }
         } else {
             http_response_code(500);
@@ -145,10 +142,12 @@ switch ($method) {
         break;
 
     default:
-        http_response_code(405);
+        http_response_code(405); // Method Not Allowed
         echo json_encode(['error' => 'Method not allowed']);
         break;
 }
 
+// Закриваємо з'єднання
 $conn->close();
+
 ?>
