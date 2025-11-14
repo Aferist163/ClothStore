@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +10,18 @@
     <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="./css/navbar.css">
 </head>
+
 <body>
     <?php include 'header.php'; ?>
 
     <div class="admin-container">
 
         <aside class="admin-form-container">
-            <form id="product-form">
+            <form id="product-form" enctype="multipart/form-data">
+
                 <h3 id="form-title">Add New Product</h3>
                 <input type="hidden" id="product-id" name="product_id">
+                <input type="hidden" id="old_image_url" name="old_image_url">
 
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -35,8 +39,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image_url">Image URL</label>
-                    <input type="text" id="image_url" name="image_url" placeholder="e.g., img/product.webp">
+                    <label for="image_file">Upload Image</label>
+                    <input type="file" id="image_file" name="image_file" accept="image/*">
                 </div>
 
                 <div class="form-group">
@@ -64,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody id="products-tbody">
-                    </tbody>
+                </tbody>
             </table>
         </main>
 
@@ -73,4 +77,5 @@
     <script src="js/admin.js" defer></script>
 </body>
 <?php include 'footer.php'; ?>
+
 </html>
