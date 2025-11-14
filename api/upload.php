@@ -1,8 +1,6 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php'; // поправил путь
+require __DIR__ . '/../vendor/autoload.php'; // путь к автолоадеру
 use Cloudinary\Cloudinary;
-
-header('Content-Type: application/json');
 
 // Получаем данные Cloudinary из переменных окружения
 $cloudName = getenv('CLOUDINARY_CLOUD');
@@ -10,7 +8,7 @@ $apiKey    = getenv('CLOUDINARY_KEY');
 $apiSecret = getenv('CLOUDINARY_SECRET');
 
 if (!$cloudName || !$apiKey || !$apiSecret) {
-    echo json_encode(['error' => 'Cloudinary credentials not set in environment']);
+    error_log('Cloudinary credentials not set in environment');
     exit;
 }
 
@@ -23,13 +21,14 @@ $cloudinary = new Cloudinary([
 ]);
 
 if(empty($_FILES['image_file']['tmp_name'])){
-    echo json_encode(['error' => 'No file uploaded']);
+    error_log('No file uploaded');
     exit;
 }
 
 try {
-    $upload = $cloudinary->uploadApi()->upload($_FILES['image_file']['tmp_name'], ['folder'=>'clothstore']);
-    echo json_encode(['url' => $upload['secure_url']]);
+    $cloudinary->uploadApi()->upload($_FILES['image_file']['tmp_name'], ['folder'=>'clothstore']);
+    // Файл загружен, ничего не возвращаем
 } catch (Exception $e) {
-    echo json_encode(['error' => $e->getMessage()]);
+    error_log('Cloudinary upload error: ' . $e->getMessage());
+    exit;
 }
