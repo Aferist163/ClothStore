@@ -1,13 +1,13 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php'; // путь к autoload
 use Cloudinary\Cloudinary;
 
 header('Content-Type: application/json');
 
-// Включаем отображение ошибок в лог, но не на фронтенд
+// Включаем логирование ошибок в файл (не выводим их в браузер)
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__.'/upload_errors.log'); // ошибки будут писаться сюда
+ini_set('error_log', __DIR__.'/upload_errors.log');
 error_reporting(E_ALL);
 
 try {
@@ -28,16 +28,23 @@ try {
         ]
     ]);
 
+    // Проверяем, что файл пришёл
     if(empty($_FILES['image_file']['tmp_name'])){
         throw new Exception('No file uploaded');
     }
 
-    $upload = $cloudinary->uploadApi()->upload($_FILES['image_file']['tmp_name'], ['folder'=>'clothstore']);
+    // Загружаем файл в Cloudinary
+    $upload = $cloudinary->uploadApi()->upload($_FILES['image_file']['tmp_name'], [
+        'folder'=>'clothstore'
+    ]);
+
+    // Возвращаем URL изображения
     echo json_encode(['url' => $upload['secure_url']]);
 
 } catch (Exception $e) {
-    // Возвращаем JSON с ошибкой
-    echo json_encode(['error' => $e->getMessage()]);
-    // Логируем полное сообщение для дебага
+    // Логируем полную ошибку для дебага
     error_log($e->__toString());
+
+    // Отправляем клиенту JSON с сообщением ошибки
+    echo json_encode(['error' => $e->getMessage()]);
 }
