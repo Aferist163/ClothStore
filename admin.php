@@ -1,7 +1,6 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="./css/navbar.css">
 </head>
-
 <body>
     <?php include 'header.php'; ?>
 
@@ -51,12 +49,6 @@
                 <button type="submit" class="form-button">Save Product</button>
                 <button type="button" id="cancel-edit-btn" class="form-button">Cancel Edit</button>
             </form>
-
-            <form id="extra-image-form" enctype="multipart/form-data">
-                <h3>Upload Extra Image</h3>
-                <input type="file" id="extra_image" name="extra_image" accept="image/*">
-                <button type="submit">Upload</button>
-            </form>
         </aside>
 
         <main class="admin-products-list">
@@ -72,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody id="products-tbody">
-                </tbody>
+                    </tbody>
             </table>
         </main>
 
@@ -81,5 +73,4 @@
     <script src="js/admin.js" defer></script>
 </body>
 <?php include 'footer.php'; ?>
-
 </html>
