@@ -9,13 +9,15 @@ extraImageInput.addEventListener('change', async (event) => {
         const fd = new FormData();
         fd.append('image_file', file);
 
-        // Отправляем файл на Cloudinary через upload.php
         const response = await fetch('/api/upload.php', {
             method: 'POST',
             body: fd
         });
 
+        if (!response.ok) throw new Error('HTTP error! status: ' + response.status);
+
         const result = await response.json();
+
 
         if (result.error) {
             console.error('Upload error:', result.error);

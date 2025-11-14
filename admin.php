@@ -17,7 +17,7 @@
     <div class="admin-container">
 
         <aside class="admin-form-container">
-            <form id="product-form" enctype="multipart/form-data">
+            <form id="product-form">
                 <h3 id="form-title">Add New Product</h3>
                 <input type="hidden" id="product-id" name="product_id">
 
@@ -48,13 +48,14 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="extra_image">Upload Extra Image</label>
-                    <input type="file" id="extra_image" name="extra_image" accept="image/*">
-                </div>
-
                 <button type="submit" class="form-button">Save Product</button>
                 <button type="button" id="cancel-edit-btn" class="form-button">Cancel Edit</button>
+            </form>
+
+            <form id="extra-image-form" enctype="multipart/form-data">
+                <h3>Upload Extra Image</h3>
+                <input type="file" id="extra_image" name="extra_image" accept="image/*">
+                <button type="submit">Upload</button>
             </form>
         </aside>
 
