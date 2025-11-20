@@ -17,7 +17,7 @@
     <div class="admin-container">
 
         <aside class="admin-form-container">
-            <form id="product-form" enctype="multipart/form-data">
+            <form id="product-form">
                 <h3 id="form-title">Add New Product</h3>
                 <input type="hidden" id="product-id" name="product_id">
 
