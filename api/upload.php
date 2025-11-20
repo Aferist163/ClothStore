@@ -6,37 +6,22 @@ header('Access-Control-Allow-Origin: *');
 require '../vendor/autoload.php';
 use Cloudinary\Cloudinary;
 
+// Перевіряємо файл
+if (!isset($_FILES['image']) || $_FILES['image']['error'] !== 0) {
+    echo json_encode(['error' => 'No file uploaded']);
+    exit;
+}
+
 try {
-    // 1. Перевіряємо файл
-    if (!isset($_FILES['image']) || $_FILES['image']['error'] !== 0) {
-        echo json_encode([
-            'success' => false,
-            'step' => 'file_check',
-            'error' => 'No file uploaded or upload error',
-            'file_data' => $_FILES
-        ]);
-        exit;
-    }
+    // Створюємо CLOUDINARY_URL вручну
+    $cloudinaryUrl = "cloudinary://" .
+        getenv('CLOUDINARY_KEY') . ":" .
+        getenv('CLOUDINARY_SECRET') . "@" .
+        getenv('CLOUDINARY_CLOUD');
 
-    // 2. Отримуємо ключі з ENV
-    $key = getenv('CLOUDINARY_KEY');
-    $secret = getenv('CLOUDINARY_SECRET');
-    $cloud = getenv('CLOUDINARY_CLOUD');
-
-    if (!$key || !$secret || !$cloud) {
-        echo json_encode([
-            'success' => false,
-            'step' => 'env_check',
-            'error' => 'Cloudinary credentials missing'
-        ]);
-        exit;
-    }
-
-    // 3. Ініціалізація Cloudinary
-    $cloudinaryUrl = "cloudinary://$key:$secret@$cloud";
     $cloudinary = new Cloudinary($cloudinaryUrl);
 
-    // 4. Завантаження файлу
+    // Завантаження файлу
     $upload = $cloudinary->uploadApi()->upload(
         $_FILES['image']['tmp_name'],
         ["folder" => "products"]
@@ -44,16 +29,10 @@ try {
 
     echo json_encode([
         'success' => true,
-        'step' => 'upload',
-        'url' => $upload['secure_url'],
-        'file_name' => $_FILES['image']['name']
+        'url' => $upload['secure_url']
     ]);
 
 } catch(Exception $e) {
-    echo json_encode([
-        'success' => false,
-        'step' => 'exception',
-        'error' => $e->getMessage()
-    ]);
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
