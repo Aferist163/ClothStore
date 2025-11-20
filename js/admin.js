@@ -253,8 +253,8 @@ function setupTempCategories() {
 async function uploadImageIfNeeded() {
     const fileInput = document.getElementById("image_file");
 
-    // Якщо файл не вибраний → повертаємо null
     if (!fileInput || fileInput.files.length === 0) {
+        console.log('No file selected, skipping upload');
         return null;
     }
 
@@ -262,23 +262,18 @@ async function uploadImageIfNeeded() {
     formData.append("image", fileInput.files[0]);
 
     try {
-        const response = await fetch("./api/upload.php", {
-            method: "POST",
-            body: formData
-        });
-
+        const response = await fetch("./api/upload.php", { method: "POST", body: formData });
         const result = await response.json();
+        console.log("Upload result:", result); // <-- Лог у консоль
 
-        if (result.success) {
-            return result.url; // Cloudinary URL
-        } else {
-            alert("Image upload failed: " + (result.error || "Unknown error"));
-            return null;
-        }
+        if (result.success) return result.url;
+
+        alert("Image upload failed at step: " + (result.step || 'unknown') + "\nError: " + (result.error || 'unknown'));
+        return null;
 
     } catch (err) {
-        console.error("Upload error:", err);
-        alert("Failed to upload image.");
+        console.error("JS Fetch error:", err);
+        alert("Failed to upload image due to JS fetch error.");
         return null;
     }
 }
