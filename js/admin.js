@@ -1,7 +1,7 @@
 // js/admin.js
 
 // Глобальні змінні для форми
-const API_URL = '/api/admin.php';
+const API_URL = './api/admin.php';
 const productForm = document.getElementById('product-form');
 const formTitle = document.getElementById('form-title');
 const productIdInput = document.getElementById('product-id');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function adminGuard() {
     try {
-        const response = await fetch('/api/auth_check.php');
+        const response = await fetch('./api/auth_check.php');
 
         if (!response.ok) {
             // Не залогінений (401) або інша помилка
