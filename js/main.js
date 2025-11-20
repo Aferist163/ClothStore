@@ -35,7 +35,7 @@ function renderProducts(products) {
         const productCard = `
             <div class="product-card">
                 <h3>${product.name} (${product.category_name})</h3>
-                <img src="${product.image_url}" alt="${product.name}">
+                <img src="${product.image_url || './img/placeholder.webp'}" alt="${product.name}">
                 <p>${product.description}</p>
                 <p><strong>Price:</strong> ${product.price}€</p>
                 <div class="product-actions">

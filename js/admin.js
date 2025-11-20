@@ -182,6 +182,7 @@ function handleEditClick(event) {
     const name = row.cells[1].textContent;
     const price = parseFloat(row.cells[2].textContent);
     const categoryId = row.dataset.categoryId || '';
+    const description = row.dataset.description || '';
 
     // Беремо картинку з таблиці
     const imgUrl = row.querySelector('td img').src;
@@ -190,12 +191,14 @@ function handleEditClick(event) {
     productIdInput.value = productId;
     productForm.querySelector('#name').value = name;
     productForm.querySelector('#price').value = price;
+    productForm.querySelector('#description').value = description;
     document.getElementById('category_id').value = categoryId;
-    document.getElementById('image_url').value = imgUrl; // <-- старий URL
+    document.getElementById('image_url').value = imgUrl; // стара картинка
 
     cancelEditBtn.style.display = 'block';
     window.scrollTo(0, 0);
 }
+
 
 
 /**

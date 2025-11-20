@@ -50,10 +50,11 @@ async function loadCart() {
             // 3. Перебираємо кожен товар і створюємо для нього HTML
             cartData.items.forEach(item => {
                 const itemTotalPrice = (item.price * item.quantity).toFixed(2);
+                
 
                 const cartItemHTML = `
                     <div class="cart-item">
-                        <img src="${item.image_url}" alt="${item.name}">
+                        <img src="${item.image_url || './img/placeholder.webp'}" alt="${item.name}">
                         <div class="cart-item-info">
                             <h4>${item.name}</h4>
                             <p>Price: ${item.price}€</p>
