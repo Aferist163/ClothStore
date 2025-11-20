@@ -1,7 +1,26 @@
-# 1. Використовуємо ОФІЦІЙНИЙ образ PHP 8.2 з сервером Apache
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# 2. Копіюємо весь наш код (index.php, api/...) у робочу папку Apache
-COPY . /var/www/html/
+# Встановлюємо розширення
+RUN docker-php-ext-install mysqli
 
-RUN docker-php-ext-install mysqli && a2enmod rewrite
+# Встановлюємо nginx + supervisor
+RUN apt-get update && apt-get install -y nginx supervisor && apt-get clean
+
+# Копіюємо код
+COPY . /var/www
+WORKDIR /var/www
+
+# Копіюємо конфіг nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Копіюємо конфіг supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Права
+RUN chown -R www-data:www-data /var/www
+
+# Стандартний порт Render
+EXPOSE 10000
+
+# Запускаємо supervisor (який запускає PHP-FPM + nginx)
+CMD ["/usr/bin/supervisord"]
