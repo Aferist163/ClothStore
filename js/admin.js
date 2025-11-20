@@ -94,11 +94,26 @@ async function loadProducts() {
 async function handleSubmitProduct(event) {
     event.preventDefault();
 
+    const productId = productIdInput.value; // ID продукту (якщо редагування)
+    const isUpdating = !!productId;
+
+    // 1. Завантажуємо нову картинку, якщо вибрана
+    const cloudinaryUrl = await uploadImageIfNeeded();
+
+    // 2. Якщо нова картинка є — підставляємо її
+    // Якщо ні — залишаємо старий URL (для редагування)
+    const imageInput = document.getElementById("image_url");
+    if (cloudinaryUrl) {
+        imageInput.value = cloudinaryUrl;
+    } else if (!isUpdating) {
+        // Для нового товару без картинки ставимо порожнє значення
+        imageInput.value = '';
+    }
+    // Для редагування без нової картинки старий URL залишиться в input.value
+
+    // 3. Збираємо всі дані форми
     const formData = new FormData(productForm);
     const data = Object.fromEntries(formData.entries());
-    const productId = productIdInput.value; // Отримуємо ID з прихованого поля
-
-    const isUpdating = !!productId; // Якщо ID є, то це UPDATE
 
     const url = isUpdating ? `${API_URL}?id=${productId}` : API_URL;
     const method = isUpdating ? 'PUT' : 'POST';
@@ -118,12 +133,13 @@ async function handleSubmitProduct(event) {
 
         alert(`Product ${isUpdating ? 'updated' : 'created'} successfully!`);
         resetForm();
-        loadProducts(); // Оновлюємо список товарів
+        loadProducts();
 
     } catch (error) {
         alert(error.message);
     }
 }
+
 
 /**
  * 4. ОБРОБКА ВИДАЛЕННЯ (DELETE)
@@ -163,25 +179,24 @@ function handleEditClick(event) {
     const row = event.target.closest('tr');
     const productId = row.dataset.id;
 
-    // Знаходимо дані прямо з таблиці (простий спосіб)
     const name = row.cells[1].textContent;
     const price = parseFloat(row.cells[2].textContent);
+    const categoryId = row.dataset.categoryId || '';
 
-    // (Складніший, але кращий спосіб - отримати повні дані товару з API)
-    // const productData = ... (поки пропустимо для простоти)
+    // Беремо картинку з таблиці
+    const imgUrl = row.querySelector('td img').src;
 
-    // Заповнюємо форму
     formTitle.textContent = 'Edit Product';
-    productIdInput.value = productId; // Встановлюємо ID
+    productIdInput.value = productId;
     productForm.querySelector('#name').value = name;
     productForm.querySelector('#price').value = price;
-    // ... (треба заповнити й інші поля, але для цього потрібен окремий запит)
+    document.getElementById('category_id').value = categoryId;
+    document.getElementById('image_url').value = imgUrl; // <-- старий URL
 
-    // (Поки що ми заповнимо лише те, що є в таблиці)
-
-    cancelEditBtn.style.display = 'block'; // Показуємо кнопку "Скасувати"
-    window.scrollTo(0, 0); // Прокручуємо сторінку вгору до форми
+    cancelEditBtn.style.display = 'block';
+    window.scrollTo(0, 0);
 }
+
 
 /**
  * Скидає форму в початковий стан (для "Add New Product")
@@ -222,4 +237,45 @@ function setupTempCategories() {
         option.textContent = cat.name;
         categorySelect.appendChild(option);
     });
+}
+
+
+
+
+
+
+
+
+
+async function uploadImageIfNeeded() {
+    const fileInput = document.getElementById("image_file");
+
+    // Якщо файл не вибраний → повертаємо null
+    if (!fileInput || fileInput.files.length === 0) {
+        return null;
+    }
+
+    const formData = new FormData();
+    formData.append("image", fileInput.files[0]);
+
+    try {
+        const response = await fetch("./api/upload.php", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            return result.url; // Cloudinary URL
+        } else {
+            alert("Image upload failed: " + (result.error || "Unknown error"));
+            return null;
+        }
+
+    } catch (err) {
+        console.error("Upload error:", err);
+        alert("Failed to upload image.");
+        return null;
+    }
 }

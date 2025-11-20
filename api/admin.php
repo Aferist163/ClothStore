@@ -6,7 +6,7 @@ session_start();
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 // Дозволяємо всі методи, потрібні для CRUD
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); 
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -50,7 +50,7 @@ switch ($method) {
         // ДІЯ: СТВОРИТИ НОВИЙ ТОВАР (CREATE)
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // Проста валідація
+        // Валідація
         if (empty($data['name']) || empty($data['price']) || empty($data['category_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Name, price, and category_id are required']);
@@ -58,13 +58,19 @@ switch ($method) {
             exit;
         }
 
-        $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
+        // Якщо image_url не передано — ставимо null
+        $image_url = $data['image_url'] ?? null;
+
+        $stmt = $conn->prepare("
+        INSERT INTO products (name, description, price, image_url, category_id)
+        VALUES (?, ?, ?, ?, ?)
+    ");
         $stmt->bind_param(
             'ssdsi',
             $data['name'],
             $data['description'],
             $data['price'],
-            $data['image_url'],
+            $image_url,
             $data['category_id']
         );
 
@@ -77,6 +83,7 @@ switch ($method) {
         }
         $stmt->close();
         break;
+
 
     case 'PUT':
         // ДІЯ: ОНОВИТИ ТОВАР (UPDATE)
