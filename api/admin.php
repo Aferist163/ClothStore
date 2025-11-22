@@ -5,7 +5,8 @@ session_start();
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+// Дозволяємо всі методи, потрібні для CRUD
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); 
 header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -14,12 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // --- 1. АДМІН-ОХОРОНЕЦЬ ---
+// Перевіряємо, чи користувач взагалі залогінений
 if (!isset($_SESSION['user_id'])) {
-    http_response_code(401);
+    http_response_code(401); // Unauthorized
     echo json_encode(['error' => 'Authentication required']);
     exit;
 }
 
+// Перевіряємо, чи користувач є АДМІНОМ
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     http_response_code(403); // Forbidden
     echo json_encode(['error' => 'Access denied. Admin rights required.']);
@@ -27,7 +30,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 // 2. Підключаємо БД
-require_once '../db.php';
+require_once '../db.php'; // $conn
 
 // 3. "Міні-роутер": визначаємо, яку дію виконувати
 $method = $_SERVER['REQUEST_METHOD'];
@@ -47,7 +50,7 @@ switch ($method) {
         // ДІЯ: СТВОРИТИ НОВИЙ ТОВАР (CREATE)
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // Валідація
+        // Проста валідація
         if (empty($data['name']) || empty($data['price']) || empty($data['category_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Name, price, and category_id are required']);
@@ -55,20 +58,14 @@ switch ($method) {
             exit;
         }
 
-        // Якщо image_url не передано — ставимо null
-        $image_url = $data['image_url'] ?? null;
-
-        $stmt = $conn->prepare("
-        INSERT INTO products (name, description, price, image_url, category_id)
-        VALUES (?, ?, ?, ?, ?)
-    ");
+        $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param(
             'ssdsi',
             $data['name'],
             $data['description'],
             $data['price'],
-            $image_url,
-            intval($data['category_id'])
+            $data['image_url'],
+            $data['category_id']
         );
 
         if ($stmt->execute()) {
@@ -81,40 +78,39 @@ switch ($method) {
         $stmt->close();
         break;
 
+    case 'PUT':
+        // ДІЯ: ОНОВИТИ ТОВАР (UPDATE)
+        // Ми очікуємо ID товару в URL, наприклад: .../admin.php?id=3
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Product ID is required in URL parameter (e.g., ?id=1)']);
+            $conn->close();
+            exit;
+        }
 
-   case 'PUT':
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Product ID is required in URL parameter (e.g., ?id=1)']);
-        $conn->close();
-        exit;
-    }
+        $data = json_decode(file_get_contents('php://input'), true);
 
-    $data = json_decode(file_get_contents('php://input'), true);
+        $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
+        $stmt->bind_param(
+            'ssdsii', // 'i' в кінці для id
+            $data['name'],
+            $data['description'],
+            $data['price'],
+            $data['image_url'],
+            $data['category_id'],
+            $id
+        );
 
-    // Приводимо значення до правильного типу
-    $name = $data['name'] ?? '';
-    $description = $data['description'] ?? '';
-    $price = isset($data['price']) ? floatval($data['price']) : 0;
-    $image_url = $data['image_url'] ?? null;
-    $category_id = isset($data['category_id']) ? intval($data['category_id']) : 0;
-    $id = intval($id);
-
-    $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
-    $stmt->bind_param('ssdiii', $name, $description, $price, $image_url, $category_id, $id);
-
-    if ($stmt->execute()) {
-        http_response_code(200);
-        echo json_encode(['success' => true, 'message' => 'Product updated']);
-    } else {
-        http_response_code(500);
-        echo json_encode(['error' => 'Failed to update product']);
-    }
-
-    $stmt->close();
-    break;
-
+        if ($stmt->execute()) {
+            http_response_code(200); // OK
+            echo json_encode(['success' => true, 'message' => 'Product updated']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to update product']);
+        }
+        $stmt->close();
+        break;
 
     case 'DELETE':
         // ДІЯ: ВИДАЛИТИ ТОВАР (DELETE)

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 1️⃣ Завантаження товарів з API
 async function fetchProducts() {
     try {
-        const response = await fetch('./api/products.php');
+        const response = await fetch('/api/products.php');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         productsData = await response.json(); // Зберігаємо всі товари
@@ -35,7 +35,7 @@ function renderProducts(products) {
         const productCard = `
             <div class="product-card">
                 <h3>${product.name} (${product.category_name})</h3>
-                <img src="${product.image_url || './img/placeholder.webp'}" alt="${product.name}">
+                <img src="${product.image_url}" alt="${product.name}">
                 <p>${product.description}</p>
                 <p><strong>Price:</strong> ${product.price}€</p>
                 <div class="product-actions">
@@ -69,7 +69,7 @@ async function handleAddToCart(event) {
     }
 
     try {
-        const response = await fetch('./api/add_to_cart.php', {
+        const response = await fetch('/api/add_to_cart.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ product_id: productId, quantity: quantity })
