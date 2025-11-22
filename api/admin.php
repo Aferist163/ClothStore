@@ -82,39 +82,39 @@ switch ($method) {
         break;
 
 
-    case 'PUT':
-        // ДІЯ: ОНОВИТИ ТОВАР (UPDATE)
-        // Ми очікуємо ID товару в URL, наприклад: .../admin.php?id=3
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Product ID is required in URL parameter (e.g., ?id=1)']);
-            $conn->close();
-            exit;
-        }
+   case 'PUT':
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Product ID is required in URL parameter (e.g., ?id=1)']);
+        $conn->close();
+        exit;
+    }
 
-        $data = json_decode(file_get_contents('php://input'), true);
+    $data = json_decode(file_get_contents('php://input'), true);
 
-        $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
-        $stmt->bind_param(
-            'ssdsii', // 'i' в кінці для id
-            $data['name'],
-            $data['description'],
-            $data['price'],
-            $data['image_url'],
-            intval($data['category_id']),
-            intval($id)
-        );
+    // Приводимо значення до правильного типу
+    $name = $data['name'] ?? '';
+    $description = $data['description'] ?? '';
+    $price = isset($data['price']) ? floatval($data['price']) : 0;
+    $image_url = $data['image_url'] ?? null;
+    $category_id = isset($data['category_id']) ? intval($data['category_id']) : 0;
+    $id = intval($id);
 
-        if ($stmt->execute()) {
-            http_response_code(200); // OK
-            echo json_encode(['success' => true, 'message' => 'Product updated']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to update product']);
-        }
-        $stmt->close();
-        break;
+    $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
+    $stmt->bind_param('ssdiii', $name, $description, $price, $image_url, $category_id, $id);
+
+    if ($stmt->execute()) {
+        http_response_code(200);
+        echo json_encode(['success' => true, 'message' => 'Product updated']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to update product']);
+    }
+
+    $stmt->close();
+    break;
+
 
     case 'DELETE':
         // ДІЯ: ВИДАЛИТИ ТОВАР (DELETE)
