@@ -66,7 +66,6 @@ async function loadProducts() {
         products.forEach(product => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-id', product.id);
-            tr.setAttribute('data-category-id', product.category_id); // <-- додали
             tr.setAttribute('data-description', product.description); // <-- додали
             tr.setAttribute('data-image-url', product.image_url || ''); // <-- додали
 
