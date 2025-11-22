@@ -1,26 +1,9 @@
-FROM php:8.2-fpm
+# 1. Використовуємо ОФІЦІЙНИЙ образ PHP 8.2 з сервером Apache
+FROM php:8.2-apache
 
-# Встановлюємо розширення
-RUN docker-php-ext-install mysqli
+# 2. Копіюємо весь наш код (index.php, api/...) у робочу папку Apache
+COPY . /var/www/html/
 
-# Встановлюємо nginx + supervisor
-RUN apt-get update && apt-get install -y nginx supervisor && apt-get clean
+RUN echo "file_uploads=On\nupload_max_filesize=10M\npost_max_size=10M" > /usr/local/etc/php/conf.d/uploads.ini
 
-# Копіюємо код
-COPY . /var/www
-WORKDIR /var/www
-
-# Копіюємо конфіг nginx
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Копіюємо конфіг supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Права
-RUN chown -R www-data:www-data /var/www
-
-# Стандартний порт Render
-EXPOSE 10000
-
-# Запускаємо supervisor (який запускає PHP-FPM + nginx)
-CMD ["/usr/bin/supervisord"]
+RUN docker-php-ext-install mysqli && a2enmod rewrite
