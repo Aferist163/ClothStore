@@ -66,19 +66,17 @@ async function loadProducts() {
         products.forEach(product => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-id', product.id);
-            tr.setAttribute('data-description', product.description); // <-- додали
-            tr.setAttribute('data-image-url', product.image_url || ''); // <-- додали
-
+            tr.setAttribute('data-image-url', product.image_url || ''); 
             tr.innerHTML = `
-        <td><img src="${product.image_url || 'img/placeholder.webp'}" alt="${product.name}"></td>
-        <td>${product.name}</td>
-        <td>${product.price}€</td>
-        <td>${product.category_name}</td>
-        <td class="action-buttons">
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
-        </td>
-    `;
+                <td><img src="${product.image_url || 'img/placeholder.webp'}" alt="${product.name}"></td>
+                <td>${product.name}</td>
+                <td>${product.price}€</td>
+                <td>${product.category_name}</td>
+                <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </td>
+            `;
             tbody.appendChild(tr);
         });
 
@@ -190,6 +188,7 @@ function handleEditClick(event) {
     // Беремо картинку з таблиці
     const imgUrl = row.dataset.imageUrl || '';
 
+
     formTitle.textContent = 'Edit Product';
     productIdInput.value = productId;
     productForm.querySelector('#name').value = name;
@@ -262,7 +261,7 @@ async function uploadImageIfNeeded() {
     }
 
     const formData = new FormData();
-    formData.append("image_file", fileInput.files[0]);
+    formData.append("image", fileInput.files[0]);
 
     try {
         const response = await fetch("./api/upload.php", {
