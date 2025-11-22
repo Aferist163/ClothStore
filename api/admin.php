@@ -71,7 +71,7 @@ switch ($method) {
             $data['description'],
             $data['price'],
             $image_url,
-            $data['category_id']
+            intval($data['category_id'])
         );
 
         if ($stmt->execute()) {
@@ -100,14 +100,16 @@ switch ($method) {
 
         $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE id = ?");
         $stmt->bind_param(
-            'ssdsii', // 'i' в кінці для id
+            'ssdsii',
             $data['name'],
             $data['description'],
             $data['price'],
             $data['image_url'],
-            $data['category_id'],
-            $id
+            intval($data['category_id']), // ← integer!
+            intval($id)
         );
+
+
 
         if ($stmt->execute()) {
             http_response_code(200); // OK
