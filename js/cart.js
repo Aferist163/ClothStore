@@ -20,7 +20,7 @@ async function loadCart() {
     try {
         // 1. Робимо запит до нашого API, яке ми створили на Кроці 8.2
         // Ми не передаємо user_id, тому що PHP сам знає його з сесії
-        const response = await fetch('/api/get_cart.php');
+        const response = await fetch('./api/get_cart.php');
 
         if (!response.ok) {
             // 401 Unauthorized (користувач не залогінений)
@@ -50,10 +50,11 @@ async function loadCart() {
             // 3. Перебираємо кожен товар і створюємо для нього HTML
             cartData.items.forEach(item => {
                 const itemTotalPrice = (item.price * item.quantity).toFixed(2);
+                
 
                 const cartItemHTML = `
                     <div class="cart-item">
-                        <img src="${item.image_url}" alt="${item.name}">
+                        <img src="${item.image_url || './img/placeholder.webp'}" alt="${item.name}">
                         <div class="cart-item-info">
                             <h4>${item.name}</h4>
                             <p>Price: ${item.price}€</p>
@@ -83,7 +84,7 @@ async function handleCheckout() {
 
     try {
         // 1. Робимо запит до нашого API (Крок 8.3)
-        const response = await fetch('/api/checkout.php', {
+        const response = await fetch('./api/checkout.php', {
             method: 'POST'
         });
 
