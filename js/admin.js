@@ -9,7 +9,7 @@ const cancelEditBtn = document.getElementById('cancel-edit-btn');
 document.addEventListener('DOMContentLoaded', () => {
     adminGuard(); 
     loadProducts(); 
-    loadCategories(); 
+   // loadCategories(); 
     setupTempCategories();
     productForm.addEventListener('submit', handleSubmitProduct);
     cancelEditBtn.addEventListener('click', resetForm);
