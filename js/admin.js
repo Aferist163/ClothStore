@@ -9,7 +9,6 @@ const cancelEditBtn = document.getElementById('cancel-edit-btn');
 document.addEventListener('DOMContentLoaded', () => {
     adminGuard(); 
     loadProducts(); 
-   // loadCategories(); 
     setupTempCategories();
     productForm.addEventListener('submit', handleSubmitProduct);
     cancelEditBtn.addEventListener('click', resetForm);
@@ -55,15 +54,15 @@ async function loadProducts() {
             tr.setAttribute('data-image-url', product.image_url || ''); 
 
             tr.innerHTML = `
-        <td><img src="${product.image_url || 'img/placeholder.webp'}" alt="${product.name}"></td>
-        <td>${product.name}</td>
-        <td>${product.price}€</td>
-        <td>${product.category_name}</td>
-        <td class="action-buttons">
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
-        </td>
-    `;
+                <td><img src="${product.image_url || 'img/placeholder.webp'}" alt="${product.name}"></td>
+                <td>${product.name}</td>
+                <td>${product.price}€</td>
+                <td>${product.category_name}</td>
+                <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </td>
+            `;
             tbody.appendChild(tr);
         });
 
@@ -91,8 +90,14 @@ async function handleSubmitProduct(event) {
         imageInput.value = '';
     }
 
-    const formData = new FormData(productForm);
-    const data = Object.fromEntries(formData.entries());
+    // Збираємо всі значення вручну
+    const data = {
+        name: document.getElementById('name').value,
+        description: document.getElementById('description').value,
+        price: parseFloat(document.getElementById('price').value),
+        image_url: document.getElementById('image_url').value,
+        category_id: parseInt(document.getElementById('category_id').value)
+    };
 
     const url = isUpdating ? `${API_URL}?id=${productId}` : API_URL;
     const method = isUpdating ? 'PUT' : 'POST';
@@ -119,15 +124,12 @@ async function handleSubmitProduct(event) {
     }
 }
 
-
 /*4. ОБРОБКА ВИДАЛЕННЯ (DELETE)*/
 async function handleDeleteClick(event) {
     const row = event.target.closest('tr');
     const productId = row.dataset.id;
 
-    if (!confirm(`Are you sure you want to delete product ID ${productId}?`)) {
-        return;
-    }
+    if (!confirm(`Are you sure you want to delete product ID ${productId}?`)) return;
 
     try {
         const response = await fetch(`${API_URL}?id=${productId}`, {
@@ -148,25 +150,19 @@ async function handleDeleteClick(event) {
     }
 }
 
-/* 5. ОБРОБКА РЕДАГУВАННЯ (Populate Form)*/
+/*5. ОБРОБКА РЕДАГУВАННЯ (Populate Form)*/
 function handleEditClick(event) {
     const row = event.target.closest('tr');
     const productId = row.dataset.id;
 
-    const name = row.cells[1].textContent;
-    const price = parseFloat(row.cells[2].textContent);
-    const categoryId = row.dataset.categoryId || '';
-    const description = row.dataset.description || '';
-
-    const imgUrl = row.dataset.imageUrl || '';
-
     formTitle.textContent = 'Edit Product';
     productIdInput.value = productId;
-    productForm.querySelector('#name').value = name;
-    productForm.querySelector('#price').value = price;
-    productForm.querySelector('#description').value = description;
-    document.getElementById('category_id').value = categoryId;
-    document.getElementById('image_url').value = imgUrl; 
+
+    document.getElementById('name').value = row.cells[1].textContent;
+    document.getElementById('price').value = parseFloat(row.cells[2].textContent);
+    document.getElementById('description').value = row.dataset.description || '';
+    document.getElementById('category_id').value = row.dataset.categoryId || '';
+    document.getElementById('image_url').value = row.dataset.imageUrl || '';
 
     cancelEditBtn.style.display = 'block';
     window.scrollTo(0, 0);
@@ -204,13 +200,10 @@ function setupTempCategories() {
     });
 }
 
-
 async function uploadImageIfNeeded() {
     const fileInput = document.getElementById("image_file");
 
-    if (!fileInput || fileInput.files.length === 0) {
-        return null;
-    }
+    if (!fileInput || fileInput.files.length === 0) return null;
 
     const formData = new FormData();
     formData.append("image_file", fileInput.files[0]);
@@ -223,12 +216,9 @@ async function uploadImageIfNeeded() {
 
         const result = await response.json();
 
-        if (result.success) {
-            return result.url;
-        } else {
-            alert("Image upload failed: " + (result.error || "Unknown error"));
-            return null;
-        }
+        if (result.success) return result.url;
+        alert("Image upload failed: " + (result.error || "Unknown error"));
+        return null;
 
     } catch (err) {
         console.error("Upload error:", err);
