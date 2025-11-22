@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // --- 1. АДМІН-ОХОРОНЕЦЬ ---
 if (!isset($_SESSION['user_id'])) {
-    http_response_code(401); 
+    http_response_code(401);
     echo json_encode(['error' => 'Authentication required']);
     exit;
 }
@@ -27,7 +27,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 // 2. Підключаємо БД
-require_once '../db.php'; 
+require_once '../db.php';
 
 // 3. "Міні-роутер": визначаємо, яку дію виконувати
 $method = $_SERVER['REQUEST_METHOD'];
@@ -68,7 +68,7 @@ switch ($method) {
             $data['description'],
             $data['price'],
             $image_url,
-            $data['category_id']
+            intval($data['category_id'])
         );
 
         if ($stmt->execute()) {
@@ -102,8 +102,8 @@ switch ($method) {
             $data['description'],
             $data['price'],
             $data['image_url'],
-            $data['category_id'],
-            $id
+            intval($data['category_id']),
+            intval($id)
         );
 
         if ($stmt->execute()) {
