@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 use Cloudinary\Cloudinary;
 
 // Перевіряємо файл
-if (!isset($_FILES['image_file']) || $_FILES['image_file']['error'] !== 0) {
+if (!isset($_FILES['image']) || $_FILES['image']['error'] !== 0) {
     echo json_encode(['error' => 'No file uploaded']);
     exit;
 }
@@ -23,7 +23,7 @@ try {
 
     // Завантаження файлу
     $upload = $cloudinary->uploadApi()->upload(
-        $_FILES['image_file']['tmp_name'],
+        $_FILES['image']['tmp_name'],
         ["folder" => "products"]
     );
 
@@ -32,7 +32,7 @@ try {
         'url' => $upload['secure_url']
     ]);
 
-} catch (Exception $e) {
+} catch(Exception $e) {
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

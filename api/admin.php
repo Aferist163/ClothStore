@@ -5,6 +5,7 @@ session_start();
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+// Дозволяємо всі методи, потрібні для CRUD
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -14,12 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // --- 1. АДМІН-ОХОРОНЕЦЬ ---
+// Перевіряємо, чи користувач взагалі залогінений
 if (!isset($_SESSION['user_id'])) {
-    http_response_code(401);
+    http_response_code(401); // Unauthorized
     echo json_encode(['error' => 'Authentication required']);
     exit;
 }
 
+// Перевіряємо, чи користувач є АДМІНОМ
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     http_response_code(403); // Forbidden
     echo json_encode(['error' => 'Access denied. Admin rights required.']);
@@ -27,7 +30,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 // 2. Підключаємо БД
-require_once '../db.php';
+require_once '../db.php'; // $conn
 
 // 3. "Міні-роутер": визначаємо, яку дію виконувати
 $method = $_SERVER['REQUEST_METHOD'];
@@ -68,7 +71,7 @@ switch ($method) {
             $data['description'],
             $data['price'],
             $image_url,
-            intval($data['category_id'])
+            $data['category_id']
         );
 
         if ($stmt->execute()) {
@@ -102,8 +105,8 @@ switch ($method) {
             $data['description'],
             $data['price'],
             $data['image_url'],
-            intval($data['category_id']),
-            intval($id)
+            $data['category_id'],
+            $id
         );
 
         if ($stmt->execute()) {
