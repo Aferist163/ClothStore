@@ -11,11 +11,14 @@
 
 <body>
     <?php include 'header.php'; ?>
+    <video autoplay muted loop id="bg-video">
+        <source src="img/bg.mp4" type="video/mp4">
+    </video>
     <div class="main-container">
 
 
 
-        <aside class="sidebar">
+        <aside class="sidebar glass">
             <h3>Filter</h3>
             <div class="filter-group">
                 <label>
@@ -59,10 +62,29 @@
                 <option value="name-desc">Name Z→A</option>
             </select>
 
+
+
+
+
         </aside>
 
         <!-- Права колонка: товари -->
         <main class="products">
+            <div class="imageSide">
+                <div class="slider">
+                    <div class="slides">
+                        <img src="img/slide1.webp" alt="">
+                        <img src="img/slide2.webp" alt="">
+                        <img src="img/slide3.webp" alt="">
+                    </div>
+
+                    <button class="slide-btn prev">‹</button>
+                    <button class="slide-btn next">›</button>
+                </div>
+            </div>
+
+            <div class="products-list"></div>
+
             <!-- Тут JS вставляє картки товарів -->
         </main>
 
