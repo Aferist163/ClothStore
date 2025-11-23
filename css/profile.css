@@ -1,33 +1,53 @@
-.profile-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 50px;
+.main-container.profile {
+    background-image: url("../img/profile.webp");
+     background-size: cover;    
+    background-position: center; 
+    background-repeat: no-repeat;
+    justify-content: center;
     
-    background: #fff;
-    border-radius: 20px;
+}
+
+.profile-container {
+    margin-top: 50px;
+    height: calc(100% - 50px);
+    border-radius: 30px 30px 0 0;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.profile_subM{
+    display: flex;
+    align-items: row;
+    gap: 40px;
 }
 
 .profile-container h2 {
     text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+    color: #ffffff;
+    margin: 0;
     text-shadow: none;
     font-size: 2.5rem;
 }
 
 .profile-info p {
     font-size: 1.2rem;
-    color: #333;
+    color: #dbdbdb;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
+    display: flex;
+    
+    justify-content: center;
+    flex-direction: column;
+    width: 300px;
 }
 
 .profile-info p strong {
-    color: #000;
+    color: #ffffff;
     margin-right: 10px;
 }
 
@@ -36,11 +56,10 @@
 #profile-email,
 #profile-role {
     font-weight: normal;
-    color: #555;
+    color: #bebebe;
 }
 
 .profile-actions {
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -60,23 +79,23 @@
 
 /* Кнопка Адмінки (за замовчуванням прихована) */
 #admin-button {
-    background-color: #ffc107; /* Жовтий */
+    background-color: #ffc1079c; /* Жовтий */
     color: #333;
     display: none; /* JS покаже її, якщо role == 'admin' */
 }
 
 #admin-button:hover {
-    background-color: #e0a800;
+    background-color: #9b7400a1;
 }
 
 /* Кнопка Виходу */
 #logout-button {
-    background-color: #dc3545; /* Червоний */
+    background-color: #dc3546ad; /* Червоний */
     color: white;
 }
 
 #logout-button:hover {
-    background-color: #c82333;
+    background-color: #b812227a;
 }
 
 .profile-links {
@@ -85,7 +104,7 @@
 }
 
 .profile-links a {
-    color: #5c5c5c;
+    color: #b9b9b9;
     text-decoration: none;
     font-size: 1.1rem;
 }
@@ -97,16 +116,19 @@
 /* --- Стилі для форми зміни пароля (додано) --- */
 
 #change-password-form {
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 2px solid #eee;
+    width: 350px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #change-password-form h3 {
     text-align: center;
-    color: #333;
-    margin-bottom: 25px;
+    color: #ffffff;
+    margin: 0;
     font-size: 1.8rem;
+    margin-bottom: 10px;
 }
 
 /* Повідомлення про успіх/помилку (для JS) */
@@ -134,7 +156,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #afafaf;
 }
 
 .form-group input {
@@ -143,12 +165,13 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
+    box-sizing: border-box;
 }
 
 .form-button {
     width: 100%;
     padding: 12px;
-    background: #007bff;
+    background: #222222;
     color: white;
     border: none;
     border-radius: 8px;
@@ -159,7 +182,7 @@
 }
 
 .form-button:hover {
-    background: #0056b3;
+    background: #000000;
 }
 
 .info{
