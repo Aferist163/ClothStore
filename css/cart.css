@@ -1,6 +1,9 @@
 /* css/cart.css */
 .main-container.cart {
     background-image: url("../img/cart.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .cart-container {

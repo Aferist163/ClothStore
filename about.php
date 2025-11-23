@@ -15,23 +15,18 @@
 <body>
 
     <?php include 'header.php'; ?>
-
-    <div class="about-container">
-        <h2>About Us</h2>
-
-        <p>
-            Welcome to ClothStore!
-        </p>
-        <p>
-            It was built by:
-        </p>
-
-        <ul class="creators-list">
-            <li>Timur Tkachov 66848</li>
-            <li>Andrii Struk 67348</li>
-            <li>Vladyslav Kostyna 66677</li>
-        </ul>
-
+    <div class="main-container about">
+        <div class="about-container glass">
+            <h2>About Us</h2>
+            <p>Welcome to ClothStore!</p>
+            <p>It was built by:</p>
+            <ul class="creators-list">
+                <li>Timur Tkachov 66848</li>
+                <li>Andrii Struk 67348</li>
+                <li>Vladyslav Kostyna 66677</li>
+            </ul>
+        </div>
     </div>
+
 
     <?php include 'footer.php'; ?>
