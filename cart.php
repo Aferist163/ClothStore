@@ -13,8 +13,8 @@
 
 <body>
     <?php include 'header.php'; ?>
-
-        <div class="cart-container">
+    <div class="main-container cart">
+        <div class="cart-container glass">
             <h2>Your Cart</h2>
             <div id="cart-items-container">
                 <p id="cart-empty-msg">Your cart is currently empty.</p>
@@ -27,7 +27,7 @@
                 <a href="index.php">Back to shop</a>
             </div>
         </div>
-
+    </div>
 
 
     <script src="js/cart.js" defer></script>

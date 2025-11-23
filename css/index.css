@@ -29,15 +29,20 @@ body {
 
 /* базова, гарантовано працююча установка */
 #bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;      /* заповнює viewport */
-  height: 100vh;     /* заповнює viewport */
-  z-index: -1;
-  object-fit: cover;        /* зберігає співвідношення сторін, обрізає по краях */
-  object-position: top center; /* показує верхню частину відео */
-  pointer-events: none;     /* щоб відео не ловило кліки */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* заповнює viewport */
+    height: 100vh;
+    /* заповнює viewport */
+    z-index: -1;
+    object-fit: cover;
+    /* зберігає співвідношення сторін, обрізає по краях */
+    object-position: top center;
+    /* показує верхню частину відео */
+    pointer-events: none;
+    /* щоб відео не ловило кліки */
 }
 
 
@@ -318,14 +323,12 @@ aside.sidebar h3 {
 
 
 .bg-switch {
-    width: 100%;
+    width: 50px;
     padding: 10px;
     cursor: pointer;
 
-    background: rgba(255, 255, 255, 0.089);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
+    background: transparent;
+    border: none;
 
     display: flex;
     justify-content: center;
@@ -341,7 +344,7 @@ aside.sidebar h3 {
     pointer-events: none;
 }
 
-.static{
+.static {
     background-color: #000000 !important;
 }
 
