@@ -1,25 +1,35 @@
 
+.auth-page {
+    background-image: url("../img/login.jpg");
+     background-size: cover;    
+    background-position: center; 
+    background-repeat: no-repeat;
+ 
+    
+}
+
 
 .auth-form {
-    background: #fff;
     border-radius: 20px;
     padding: 40px;
     margin: 50px auto;
     max-width: 400px;
     width: 100%;
-    
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
     
 }
 
 /* Ми робимо цей h2 специфічним, щоб він не конфліктував з h2 з index.css */
 .auth-form h2 {
     text-align: center;
-    color: #333; 
-    margin-bottom: 30px;
+    color: #ffffff; 
+    margin: 0;
     text-shadow: none; 
     font-size: 2.5rem;
+    margin-bottom: 10px;
 }
 
 .form-group {
@@ -30,7 +40,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #555;
+    color: #b6b6b6;
 }
 
 .form-group input {
@@ -39,12 +49,13 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
+    box-sizing: border-box;
 }
 
 .form-button {
     width: 100%;
     padding: 15px;
-    background: #5c5c5c;
+    background: #202020;
     color: white;
     border: none;
     border-radius: 8px;
@@ -55,16 +66,17 @@
 }
 
 .form-button:hover {
-    background: #333;
+    background: #000000;
 }
 
 .form-link {
     text-align: center;
     margin-top: 20px;
+    color: #ffffff;
 }
 
 .form-link a {
-    color: #5c5c5c;
+    color: #adadad;
     text-decoration: none;
 }
 

@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="./css/navbar.css"> <link rel="stylesheet" href="./css/auth.css">
     <link rel="stylesheet" href="./css/auth.css">
 </head>
-<body>
+<body class="auth-page">
     <?php include 'header.php'; ?>
 
-    <form id="login-form" class="auth-form">
+    <form id="login-form" class="auth-form glass">
         <h2>Login</h2>
         <div id="error-message"></div>
         <div class="form-group">

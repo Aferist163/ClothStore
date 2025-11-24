@@ -13,7 +13,7 @@
 
     <?php include 'header.php'; // 1. Хедер має бути тут, одразу після <body> ?>
 
-    <form id="register-form" class="auth-form">
+    <form id="register-form" class="auth-form glass">
         <h2>Create Account</h2>
         
         <div id="error-message"></div>
